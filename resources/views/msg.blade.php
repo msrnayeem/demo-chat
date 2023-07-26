@@ -168,9 +168,8 @@
               </div>
               <div class="col-lg-10" id="header-search">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Find Service" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                    <div class="input-group-append">
+                    <input type="text" class="form-control" placeholder="Find Service" aria-label="Recipient's username" aria-describedby="basic-addon2">                    
+                    <div class="input-group-append ml-3">
                     <button class="search btn btn-outline-secondary" type="button">Search</button>
                     </div>
                 </div>
@@ -214,7 +213,7 @@
 
                               </div>
                               <div class="footer">
-                                <a href="#" style="text-decoration: underline; color:black;!important; font-size: 12px;">mark as read</a>
+                                <a href="#" style="text-decoration: underline; color:black; font-size: 12px;">mark as read</a>
                               </div>
                             </div>
                       </li>
@@ -230,13 +229,11 @@
                           </div>
                           <div class="main">
                             <!-- Content of main div with overflow-y: auto; -->
-                            <div class="notification-item odd">chat 1 chat 1 chat 1 chat 1 chat 1 chat 1 chat 1</div>
-                              <div class="notification-item even">chat 2</div>
-                              <div class="notification-item odd">chat 3</div>
-                              <div class="notification-item even">chat 4</div>
+                            <div class="notification-item odd">chat 1 </div>
+                             
                           </div>
                           <div class="footer">
-                            <a href="#" style="text-decoration: underline; color:black;!important; font-size: 12px;"> all messages </a>
+                            <a href="#" style="text-decoration: underline; color:black; font-size: 12px;"> all messages </a>
                           </div>
                         </div>
                       </li>
@@ -498,7 +495,32 @@
           $('.profile-container').hide();
             $('.notification-container').hide();
             $('.cart-container').show();
-        });
+cons
+
+        $.ajax({
+                url: '/get-message', 
+                method: 'GET', 
+                dataType: 'json', 
+                success: function(data) {
+                  console.log('Received messages:', data);
+                  var mainDiv = $('.cart-container .main');
+                  mainDiv.empty(); 
+
+                  
+                  for (var i = 0; i < data.length; i++) {
+                    var messageItem = $('<div class="notification-item"></div>');
+                    messageItem.text(data[i].userName + ': ' + data[i].message + ' (' + data[i].sendingTime + ')');
+                    mainDiv.append(messageItem);
+                  }
+                },
+                error: function(xhr, status, error) {
+                 
+                  console.error('Error fetching messages:', error);
+                }
+
+        }); 
+      });
+
 
         // Show notification container on notification icon click
         $('#notification').on('click', function() {
