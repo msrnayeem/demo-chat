@@ -51,7 +51,7 @@
   top: 47%; /* This will position the cart panel below the cart icon */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add some shadow for a better appearance */
   border-radius: 10px;
-  display: none;
+  display: flex;
   flex-direction: column;
   right: 10%;
       
@@ -96,9 +96,48 @@
 .main {
   height: 80%;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 2px;
   color:black;
   font-size: 12px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.right {
+    font-size: 12px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* Styling for the user info (name) */
+.user-info {
+    font-weight: bold;
+}
+
+/* Styling for the message body */
+.message-body {
+    margin-top: 5px;
+}
+
+/* Styling for the chat footer */
+.footer {
+    text-align: center;
+    margin-top: 10px;
 }
 
 .footer {
@@ -223,19 +262,37 @@
                           <i class="fa fa-comments" aria-hidden="true"></i>
                             <span class="count"></span>
                           </p>
-                        <div class="cart-container">
-                          <div class="top">
-                            <h2>Chat</h2>
+                          <div class="cart-container">
+                              <div class="top">
+                                  <h2>Chat</h2>
+                              </div>
+                              <div class="main">
+                                  <div class="row">
+                                      <div class="left">
+                                          <img src="{{ asset('uploads/'.Auth::user()->id.'.jpg') }}" alt="User 1 Avatar" class="avatar">
+                                          <div class="user-info">
+                                              User 1
+                                          </div>
+                                      </div>
+                                      <p >
+                                          02 min ago
+                                      </p>
+                                  </div>
+                                  <div class="message-body">
+                                      @php
+                                          $message = 'Message 1 from User 2 to User 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+                                          $maxLength = 30; // Maximum length of the message to display
+                                          $truncatedMessage = (strlen($message) > $maxLength) ? substr($message, 0, $maxLength) . '...' : $message;
+                                      @endphp
+                                      {{ $truncatedMessage }}
+                                  </div>
+                                  <!-- Add more rows for other messages -->
+                              </div>
+                              <div class="footer">
+                                  <a href="#" style="text-decoration: underline; color:black; font-size: 12px;">all messages</a>
+                              </div>
                           </div>
-                          <div class="main">
-                            <!-- Content of main div with overflow-y: auto; -->
-                            <div class="notification-item odd">chat 1 </div>
-                             
-                          </div>
-                          <div class="footer">
-                            <a href="#" style="text-decoration: underline; color:black; font-size: 12px;"> all messages </a>
-                          </div>
-                        </div>
+
                       </li>
 
                       <li id="order">
@@ -337,7 +394,7 @@
 
 
     <main>
-         @include('vendor.Chatify.pages.app')
+         <!-- @include('vendor.Chatify.pages.app') -->
     </main>
 
 
@@ -476,7 +533,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="../js/bootstrap-popover-x.js" type="text/javascript"></script>
 
   <script>
   if (window.location.href !== "http://localhost/miverr/") {
@@ -494,24 +550,15 @@
         $('#cart').on('click', function() {
           $('.profile-container').hide();
             $('.notification-container').hide();
-            $('.cart-container').show();
-cons
-
+            // $('.cart-container').show();
+       
         $.ajax({
                 url: '/get-message', 
                 method: 'GET', 
-                dataType: 'json', 
-                success: function(data) {
-                  console.log('Received messages:', data);
-                  var mainDiv = $('.cart-container .main');
-                  mainDiv.empty(); 
+                type: 'json',
+                success: function(response) {
+                  console.log('Received messages:', response.data);
 
-                  
-                  for (var i = 0; i < data.length; i++) {
-                    var messageItem = $('<div class="notification-item"></div>');
-                    messageItem.text(data[i].userName + ': ' + data[i].message + ' (' + data[i].sendingTime + ')');
-                    mainDiv.append(messageItem);
-                  }
                 },
                 error: function(xhr, status, error) {
                  
@@ -548,48 +595,6 @@ cons
  
 </script>
 
-
-
-<script>
-        $(document).ready(function() {
-            $('#popoverButton').click(function() {
-
-              
-                var popover = $(this);
-
-                $.ajax({
-                    url: '/get-notification-data',
-                    type: 'GET',
-                    success: function(response) {
-                        // Process the response and update the popover content
-                        var content = '';
-
-                        if (response.length > 0) {
-                            for (var i = 0; i < response.length; i++) {
-                                var notification = response[i];
-                                var message = notification.message;
-
-                                content += '<p style="background color:blue;">' + message + '</p>';
-                            }
-                        } else {
-                            content = '<p>No notifications found.</p>';
-                        }
-
-                        $('#popoverContent').html(content);
-
-                        // Show the popover
-                        popover.popover('show');
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle error if necessary
-                        console.log(error);
-                    }
-                });
-
-                return false;
-            });
-        });
-    </script>
 
 </body>
 

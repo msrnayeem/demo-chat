@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('welcome');
+    return view('msg');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -31,6 +31,6 @@ Route::middleware('auth')->group(function () {
 
 
 //get messages
-Route::get('/get-message', [MessageController::class, 'getMessages'])->middleware('auth')->name('messages.index');
+Route::get('/get-message', [MessageController::class, 'getMessages'])->name('messages.index');
 
 require __DIR__.'/auth.php';

@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(50)->create();
+         $this->call(UsersTableSeeder::class);
+        $this->call(ChMessageSeeder::class);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
