@@ -51,7 +51,7 @@
   top: 47%; /* This will position the messenger panel below the messenger icon */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add some shadow for a better appearance */
   border-radius: 8px;
-  display: flex;
+  display: none;
   flex-direction: column;
   right: 8%;
       
@@ -249,7 +249,8 @@
                                   <h2>Chat</h2>
                               </div>
                               <div class="main">  
-                                <p>No messages yet</p>
+                                <p class="text-center d-flex justify-content-center align-items-center loading-message" style="min-height: 180px;">Loading...</p>
+                                <p class="text-center d-flex justify-content-center align-items-center no-messages-message" style="min-height: 180px;">No messages yet</p>
                               </div>
                               <div class="footer">
                                   <a href="#" style="text-decoration: underline; color:black; font-size: 12px;">all messages</a>
@@ -510,11 +511,14 @@
 
   // Check if the messenger container is hidden
   if (messengerContainer.is(':hidden')) {
+    $('.no-messages-message').hide(); // Initially hide the "No messages yet" message
+    $('.loading-message').show();
     $.ajax({
-      url: '/get',
+      url: '/get-message',
       method: 'GET',
       success: function(data) {
-        console.log('Received messages:', data);
+        
+        $('.loading-message').hide();
 
         if (data.status === true && data.data.length > 0) {
           // Clear any existing content in the messenger container
@@ -553,10 +557,16 @@
           messengerContainer.toggle();
         } else {
           console.log('No messages found');
+          
+          $('.loading-message').remove();
+          $('.no-messages-message').show();
+          messengerContainer.show();
+          
         }
       },
       error: function(xhr, status, error) {
         console.error('Error fetching messages:', error);
+        $('.loading-message').hide();
       }
     });
   } else {
