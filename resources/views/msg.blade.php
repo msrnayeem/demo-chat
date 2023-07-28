@@ -24,9 +24,9 @@
   width: 15%;
   height: 250px;
   cursor: default;
-  background-color:green;
+  background-color:#ebebeb;
   position: absolute;
-  top: 47%; /* This will position the cart panel below the cart icon */
+  top: 47%; /* This will position the messenger panel below the messenger icon */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add some shadow for a better appearance */
   border-radius: 10px;
   display: none;
@@ -41,17 +41,17 @@
   object-fit: cover; /* Ensure the image fills the circular space without distortion */
   
 }
-.cart-container{
+.messenger-container{
   z-index: 333;
   width: 15%;
   height: 250px;
   cursor: default;
-  background-color:green;
+  background-color:#ebebeb;
   position: absolute;
-  top: 47%; /* This will position the cart panel below the cart icon */
+  top: 47%; /* This will position the messenger panel below the messenger icon */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add some shadow for a better appearance */
-  border-radius: 10px;
-  display: flex;
+  border-radius: 8px;
+  display: none;
   flex-direction: column;
   right: 10%;
       
@@ -61,7 +61,7 @@
   cursor: default;
   background-color:white;
   position: absolute;
-  top: 47%; /* This will position the cart panel below the cart icon */
+  top: 47%; /* This will position the messenger panel below the messenger icon */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add some shadow for a better appearance */
   text-align: left;
   display: none;
@@ -134,15 +134,10 @@
     margin-top: 5px;
 }
 
-/* Styling for the chat footer */
-.footer {
-    text-align: center;
-    margin-top: 10px;
-}
 
 .footer {
   height: 10%;
-  
+  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -220,7 +215,6 @@
         <div class="col-lg-6">
           <div class="right">
               <nav class="header-right-menu">
-               
                     <ul>
                       <li id="notification">
                             <p>
@@ -237,19 +231,7 @@
                                 <div class="notification-item odd">Notification 1 Notification 1 Notification 1 Notification 1 Notification 1 Notification 1 Notification 1</div>
                                 <div class="notification-item even">Notification 2</div>
                                 <div class="notification-item odd">Notification 3</div>
-                                <div class="notification-item even">Notification 4</div>
-                                <div class="notification-item odd">Notification 5</div>
-                                <div class="notification-item even">Notification 6</div>
-                                <div class="notification-item odd">Notification 7</div>
-                                <div class="notification-item even">Notification 8</div>
-                                <div class="notification-item odd">Notification 9</div>
-                                <div class="notification-item even">Notification 10</div>
-                                <div class="notification-item odd">Notification 11</div>
-                                <div class="notification-item even">Notification 12</div>
-                                <div class="notification-item odd">Notification 13</div>
-                                <div class="notification-item even">Notification 14</div>
-                                <div class="notification-item odd">Notification 15</div>
-
+                               
                               </div>
                               <div class="footer">
                                 <a href="#" style="text-decoration: underline; color:black; font-size: 12px;">mark as read</a>
@@ -257,35 +239,43 @@
                             </div>
                       </li>
 
-                      <li id="cart">
+                      <li id="messenger">
                         <p>
                           <i class="fa fa-comments" aria-hidden="true"></i>
                             <span class="count"></span>
                           </p>
-                          <div class="cart-container">
+                          <div class="messenger-container">
                               <div class="top">
                                   <h2>Chat</h2>
                               </div>
                               <div class="main">
-                                  <div class="row">
-                                      <div class="left">
-                                          <img src="{{ asset('uploads/'.Auth::user()->id.'.jpg') }}" alt="User 1 Avatar" class="avatar">
-                                          <div class="user-info">
-                                              User 1
-                                          </div>
+                                  				<!--for loop to print message-->
+
+                                @for($i=0; $i<=6; $i++)
+                                <!--first message-->
+                                <div class="container px-0 pb-1 px-2">
+
+                                  <div class="row mx-0 bg-white rounded">
+                                    <div class="col-auto px-1">
+                                      <img src="{{ asset('uploads/1.jpg') }}" alt="User 1 Avatar" class="avatar">
+                                    </div>
+
+                                    <div class="col px-0 mx-1">
+                                      <div class="row mx-0">
+                                        <div class="col-5 px-0 text-start">
+                                            name {{$i}}
+                                        </div>
+                                        <div class="col-7 px-0 text-end fw-lighter ">
+                                        <small> 3{{$i}} min ago</small>
+                                        </div>
                                       </div>
-                                      <p >
-                                          02 min ago
-                                      </p>
+                                      <div class="row mx-0 text-start">
+                                          <p class="my-0 px-0 fw-lighter">this is message {{$i}}...</p>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div class="message-body">
-                                      @php
-                                          $message = 'Message 1 from User 2 to User 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-                                          $maxLength = 30; // Maximum length of the message to display
-                                          $truncatedMessage = (strlen($message) > $maxLength) ? substr($message, 0, $maxLength) . '...' : $message;
-                                      @endphp
-                                      {{ $truncatedMessage }}
-                                  </div>
+                                </div>
+                                @endfor
                                   <!-- Add more rows for other messages -->
                               </div>
                               <div class="footer">
@@ -294,15 +284,9 @@
                           </div>
 
                       </li>
-
-                      <li id="order">
-                        <p>Orders</p>
-                        
-                      </li>
-
                       <li id="profile">
                         <p>
-                            <img class="user-avatar" src="{{ asset('uploads/'.Auth::user()->id.'.jpg') }}" alt="User Image">
+                            <img class="user-avatar" src="{{ asset('uploads/1.jpg') }}" alt="User Image">
                         </p>
                         <div class="profile-container" id="userDropdown">
                           <div class="notification-item odd"><a href="" class="profile-item even">Profile</a></div>
@@ -312,8 +296,7 @@
           
                         </div>
                       </li>
-                    </ul>
-               
+                    </ul>               
             </nav>
                      
           </div>
@@ -541,59 +524,43 @@
 
   headerBottomMenu.classList.add('show');
   headerSearch.classList.add('show');
+  
 }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Show cart container on cart icon click
-        $('#cart').on('click', function() {
-          $('.profile-container').hide();
-            $('.notification-container').hide();
-            // $('.cart-container').show();
-       
-        $.ajax({
-                url: '/get-message', 
-                method: 'GET', 
-                type: 'json',
-                success: function(response) {
-                  console.log('Received messages:', response.data);
-
-                },
-                error: function(xhr, status, error) {
-                 
-                  console.error('Error fetching messages:', error);
-                }
-
-        }); 
-      });
-
-
-        // Show notification container on notification icon click
-        $('#notification').on('click', function() {
-            $('.cart-container').hide();
-            $('.profile-container').hide();
-            $('.notification-container').show();
-        });
-        $('#profile').on('click', function() {
-            $('.cart-container').hide();
-            $('.notification-container').hide();
-            $('.profile-container').show();
-        });
-
-        // Hide both containers when clicking outside them
-        $(document).on('click', function(event) {
-            if (
-                !$(event.target).closest('#cart, #notification, #profile').length &&
-                !$(event.target).closest('.cart-container, .notification-container,.profile-container').length
-            ) {
-                $('.cart-container, .notification-container, .profile-container').hide();
-            }
-        });
+  $(document).ready(function() {
+    // Toggle containers when clicking on icons
+    $('#messenger').on('click', function() {
+      $('.profile-container').hide();
+      $('.notification-container').hide();
+      $('.messenger-container').toggle();
     });
 
- 
+    $('#notification').on('click', function() {
+      $('.messenger-container').hide();
+      $('.profile-container').hide();
+      $('.notification-container').toggle();
+    });
+
+    $('#profile').on('click', function() {
+      $('.messenger-container').hide();
+      $('.notification-container').hide();
+      $('.profile-container').toggle();
+    });
+
+    // Hide all containers when clicking outside
+    $(document).on('click', function(event) {
+      if (
+        !$(event.target).closest('#messenger, #notification, #profile').length &&
+        !$(event.target).closest('.messenger-container, .notification-container, .profile-container').length
+      ) {
+        $('.messenger-container, .notification-container, .profile-container').hide();
+      }
+    });
+  });
 </script>
+
 
 
 </body>
