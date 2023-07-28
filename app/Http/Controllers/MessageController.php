@@ -35,7 +35,7 @@ class MessageController extends Controller
         else{
             return response()->json([
                 'status' => false,
-                'message' => 'No messages found'
+                'data' => 'No messages found'
             ]);
         }
     }
