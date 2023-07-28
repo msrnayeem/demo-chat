@@ -21,18 +21,18 @@
   <style>
 .notification-container{
   z-index: 333;
-  width: 15%;
+  width: 210px;
   height: 250px;
   cursor: default;
   background-color:#ebebeb;
   position: absolute;
-  top: 47%; /* This will position the messenger panel below the messenger icon */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add some shadow for a better appearance */
   border-radius: 10px;
   display: none;
   flex-direction: column;
-  right: 13%;   
   } 
+#notification {
+  position: relative;
+}
 
 .user-avatar {
   width: 24px; /* Set the desired width and height for the circular avatar */
@@ -43,33 +43,33 @@
 }
 .messenger-container{
   z-index: 333;
-  width: 18%;
+  width: 200px;
   height: 250px;
   cursor: default;
   background-color:#ebebeb;
   position: absolute;
-  top: 47%; /* This will position the messenger panel below the messenger icon */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add some shadow for a better appearance */
   border-radius: 8px;
   display: none;
-  flex-direction: column;
-  right: 8%;
-      
+  flex-direction: column;  
+}
+#messenger {
+  position: relative;
+}
+
+/* Adjust the top property to position the .messenger-container below the icon */
+#messenger .messenger-container {
+  top: calc(100%); /* Adjust the margin (10px) as needed */
 }
 .profile-container{
   z-index: 333;
   cursor: default;
   background-color:white;
   position: absolute;
-  top: 47%; /* This will position the messenger panel below the messenger icon */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add some shadow for a better appearance */
   text-align: left;
   display: none;
   flex-direction: column;
-  right: 1%;
   padding: 5px;
   font-size:12px;
-  
 }
 
 .notification-item {
@@ -256,7 +256,6 @@
                                   <a href="#" style="text-decoration: underline; color:black; font-size: 12px;">all messages</a>
                               </div>
                           </div>
-
                       </li>
                       <li id="profile">
                         <p>
@@ -267,7 +266,6 @@
                           <div class="notification-item even"><a href="#" class="profile-item odd">Setting</a></div>
                           <div class="notification-item even"><a href="#" class="profile-item odd">Change Password</a></div>
                           <div class="notification-item even"><a href="" class="profile-item odd">Logout</a></div>
-          
                         </div>
                       </li>
                     </ul>               
@@ -504,6 +502,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
+
+  setRightMargin();
+    // Call the function whenever the window is resized (to handle responsive design)
+  $(window).resize(function() {
+    setRightMargin();
+  });
+
   $('#messenger').on('click', function() {
   $('.profile-container').hide();
   $('.notification-container').hide();
@@ -625,6 +630,17 @@ function calculateTimeAgo(createdAt) {
     return yearsDiff + ' years ago';
   }
 }
+function setRightMargin() {
+   // For Messenger container
+   var messengerIconWidth = $('#messenger i').outerWidth(true);
+    var messengerRightMargin = $(window).width() - ($('#messenger').offset().left + messengerIconWidth) - 50;
+    $('.messenger-container').css('right', messengerRightMargin + 'px');
+
+    // For Notification container
+    var notificationIconWidth = $('#notification i').outerWidth(true);
+    var notificationRightMargin = $(window).width() - ($('#notification').offset().left + notificationIconWidth) -100;
+    $('.notification-container').css('right', notificationRightMargin + 'px');
+  }
 </script>
 
 
